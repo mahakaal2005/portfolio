@@ -42,7 +42,7 @@ export default function Preloader({ onComplete }) {
   )
 
   return (
-    <div ref={root} className="fixed inset-0 z-[100]" aria-hidden="true">
+    <div ref={root} className="fixed inset-0 z-50" aria-hidden="true">
       <div className="absolute inset-0 flex">
         {[0, 1, 2, 3].map((i) => (
           <div key={i} data-preloader-panel className="h-full flex-1 bg-void" />

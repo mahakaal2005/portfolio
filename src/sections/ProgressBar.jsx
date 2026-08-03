@@ -26,7 +26,7 @@ export default function ProgressBar() {
   )
 
   return (
-    <div className="fixed inset-x-0 top-0 z-[60] h-0.5 bg-transparent" aria-hidden="true">
+    <div className="fixed inset-x-0 top-0 z-30 h-0.5 bg-transparent" aria-hidden="true">
       <div ref={bar} className="h-full origin-left scale-x-0 bg-accent" />
     </div>
   )

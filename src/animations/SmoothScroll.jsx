@@ -22,6 +22,9 @@ export default function SmoothScroll({ children }) {
       gsap.ticker.add(update)
       // Without this GSAP "catches up" after a dropped frame and desyncs.
       gsap.ticker.lagSmoothing(0)
+      // Mobile URL-bar collapse changes svh, and all three pinned sections are
+      // sized in svh — without this every such resize recomputes pins mid-scroll.
+      ScrollTrigger.config({ ignoreMobileResize: true })
       ScrollTrigger.refresh()
 
       return () => {

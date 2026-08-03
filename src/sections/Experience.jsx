@@ -51,8 +51,11 @@ export default function Experience() {
       const cards = gsap.utils.toArray('[data-stack-card]', stack.current)
       if (!cards.length) return
 
-      gsap.set(cards, { y: '100%', scale: 1, rotation: 0 })
-      gsap.set(cards[0], { y: '0%' })
+      // Waiting cards must be hidden, not just offset — the stack box is shorter
+      // than the section, so an offset-only card still shows below the active one.
+      cards.forEach((card, i) => gsap.set(card, { zIndex: i }))
+      gsap.set(cards, { y: '100%', autoAlpha: 0, scale: 1, rotation: 0 })
+      gsap.set(cards[0], { y: '0%', autoAlpha: 1 })
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -69,10 +72,16 @@ export default function Experience() {
       cards.forEach((card, i) => {
         if (i === cards.length - 1) return
         tl.to(card, { scale: 0.86, rotation: -3, autoAlpha: 0.45, ease: 'none' }, i)
-        tl.to(cards[i + 1], { y: '0%', ease: 'none' }, i)
+        tl.to(cards[i + 1], { y: '0%', autoAlpha: 1, ease: 'none' }, i)
+        // Retire the card two deep so the stack never reads as more than a pair.
+        if (i > 0) tl.to(cards[i - 1], { autoAlpha: 0, ease: 'none' }, i)
       })
 
-      return () => tl.scrollTrigger?.kill()
+      return () => {
+        tl.scrollTrigger?.kill()
+        tl.kill()
+        gsap.set(cards, { clearProps: 'all' })
+      }
     },
     { scope: root, dependencies: [motionEnabled], revertOnUpdate: true },
   )
@@ -106,7 +115,7 @@ export default function Experience() {
     >
       <span className="text-label mb-8 shrink-0 text-accent">[ 03 — Track record ]</span>
 
-      <div ref={stack} className="relative h-[min(60vh,32rem)] w-full">
+      <div ref={stack} className="relative h-[min(60vh,32rem)] w-full overflow-hidden">
         {milestones.map((m) => (
           <article
             key={m.id}

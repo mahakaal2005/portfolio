@@ -23,7 +23,14 @@ export default function Nav() {
   }
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-5 mix-blend-difference md:px-10">
+    <header className="fixed inset-x-0 top-0 z-40 flex items-center justify-between px-6 py-5 md:px-10">
+      {/* Replaces mix-blend-difference: keeps the nav legible over large scrolling
+          headings without forcing a full-viewport blend group every frame. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-ink via-ink/80 to-transparent"
+      />
+
       <a
         href="#top"
         onClick={(e) => goTo(e, 'top')}
