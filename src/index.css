@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --color-void: #0a0a0a;
+  --color-ink: #0f0f0f;
+  --color-panel: #1f1f1f;
+  --color-raised: #2a2a2a;
+
+  --color-bone: #e3e3db;
+  --color-bone-dim: #8f8f88;
+
+  --color-accent: #3ddc84;
+  --color-accent-dim: #2bb369;
+
+  --color-line: rgba(227, 227, 219, 0.1);
+  --color-line-bright: rgba(61, 220, 132, 0.35);
+
+  --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    /* Lenis drives scrolling; native smooth-scroll fights it. */
+    scroll-behavior: auto;
+  }
+
+  body {
+    @apply bg-ink text-bone font-display antialiased;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-weight: 500;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+}
+
+@layer utilities {
+  .text-display {
+    font-size: clamp(2.75rem, 9vw, 11rem);
+    line-height: 0.88;
+    letter-spacing: -0.045em;
+  }
+
+  .text-section {
+    font-size: clamp(2rem, 5.5vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+  }
+
+  .text-label {
+    @apply font-mono uppercase;
+    font-size: 0.6875rem;
+    letter-spacing: 0.22em;
+  }
+
+  /* SplitText mask:"lines" needs the wrapper to clip; GSAP adds its own, but
+     manual line wrappers in JSX need this. */
+  .line-mask {
+    overflow: hidden;
+    display: block;
+  }
+}
+
+/* Reduced-motion resets live here — early enough in the cascade that they
+   can't clobber layout, late enough to beat the utilities above. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Same rules, driven by the visible motion toggle rather than the OS setting. */
+html[data-motion='off'] *,
+html[data-motion='off'] *::before,
+html[data-motion='off'] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
