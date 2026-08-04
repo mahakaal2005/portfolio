@@ -55,22 +55,34 @@ export default function Marquee() {
         })
       })
 
+      let target = 1
+
+      const settle = () => {
+        loops.forEach((loop) => {
+          loop.timeScale(loop.timeScale() + (target - loop.timeScale()) * 0.08)
+        })
+        // Velocity only decays while onUpdate fires, so an abrupt stop would
+        // otherwise strand the speed. Pull the target home every frame instead.
+        target += (1 - target) * 0.04
+      }
+      gsap.ticker.add(settle)
+
       const trigger = ScrollTrigger.create({
         trigger: root.current,
         start: 'top bottom',
         end: 'bottom top',
         onUpdate: (self) => {
-          // Scroll velocity bends the ticker speed and can flip direction — the
-          // marquee reads as reacting to you, not just playing on its own.
-          // Velocity decays to 0 when idle, so this settles back to 1x on its own.
-          const scale = gsap.utils.clamp(-8, 8, 1 + self.getVelocity() / 260)
-          loops.forEach((loop) => {
-            gsap.to(loop, { timeScale: scale, duration: 0.4, overwrite: true })
-          })
+          // Scroll velocity bends the ticker speed so the marquee reads as
+          // reacting to you. Clamped above 0 — crossing zero flips direction
+          // mid-frame, and Lenis's easing tail keeps it oscillating for a second.
+          target = gsap.utils.clamp(0.35, 3.4, 1 + self.getVelocity() / 900)
         },
       })
 
-      return () => trigger.kill()
+      return () => {
+        gsap.ticker.remove(settle)
+        trigger.kill()
+      }
     },
     { scope: root, dependencies: [motionEnabled], revertOnUpdate: true },
   )

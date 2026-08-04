@@ -59,6 +59,12 @@ export default function Hero({ ready }) {
           pin: true,
           scrub: 0.8,
           invalidateOnRefresh: true,
+          // Hero's pin is created last (it waits for the preloader) but sits
+          // first on the page. Without an explicit priority ScrollTrigger
+          // refreshes in creation order, so Work and Experience measure without
+          // Hero's spacer and start a full viewport early — landing on top of
+          // each other. Higher priority refreshes first; see Work/Experience.
+          refreshPriority: 3,
         },
       })
 
@@ -70,7 +76,16 @@ export default function Hero({ ready }) {
         // — fading it on the same curve as the name empties the pin too early.
         .to('[data-hero-portrait]', { yPercent: 10, ease: 'none' }, 0)
         .to('[data-hero-portrait]', { autoAlpha: 0, ease: 'none' }, 0.55)
-        .to('[data-hero-scrim]', { autoAlpha: 1, ease: 'none' }, 0)
+        // Peaks at 0.72, not 1 — a fully opaque scrim while the pin still has
+        // travel left leaves a blank screen before Manifesto arrives.
+        .to('[data-hero-scrim]', { autoAlpha: 0.72, ease: 'none' }, 0)
+
+      // This pin is created late — only once the preloader releases — and its
+      // spacer adds a viewport of height above every section below. Work and
+      // Experience measured before it existed, so without this their pins start
+      // a full viewport early and render on top of each other. Safe to refresh
+      // here: the preloader just lifted, so the user is still at scroll 0.
+      ScrollTrigger.refresh()
     },
     { scope: root, dependencies: [motionEnabled, ready], revertOnUpdate: true },
   )

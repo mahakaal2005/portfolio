@@ -352,7 +352,8 @@ export default function Work() {
               pin: true,
               scrub: 1,
               invalidateOnRefresh: true,
-              anticipatePin: 1,
+              // Refreshes after Hero's pin, before Experience's — page order.
+              refreshPriority: 2,
             },
           })
 

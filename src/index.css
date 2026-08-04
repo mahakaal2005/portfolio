@@ -11,15 +11,11 @@
   --color-bone-dim: #8f8f88;
 
   --color-accent: #3ddc84;
-  --color-accent-dim: #2bb369;
 
   --color-line: rgba(227, 227, 219, 0.1);
-  --color-line-bright: rgba(61, 220, 132, 0.35);
 
   --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
-
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer base {
@@ -31,6 +27,17 @@
   body {
     @apply bg-ink text-bone font-display antialiased;
     overflow-x: hidden;
+    /* Static depth only. Painted once and never invalidated, unlike the
+       blend layer this replaced, which recomposited the page every frame. */
+    background-image:
+      radial-gradient(
+        ellipse 90% 55% at 72% -5%,
+        color-mix(in srgb, var(--color-accent) 7%, transparent),
+        transparent 70%
+      ),
+      radial-gradient(ellipse 70% 50% at 10% 12%, rgba(227, 227, 219, 0.045), transparent 68%),
+      radial-gradient(ellipse 120% 60% at 50% 105%, rgba(10, 10, 10, 0.85), transparent 60%);
+    background-attachment: fixed;
   }
 
   h1,
@@ -60,10 +67,14 @@
     letter-spacing: -0.045em;
   }
 
-  .text-section {
-    font-size: clamp(2rem, 5.5vw, 5.5rem);
-    line-height: 0.95;
-    letter-spacing: -0.035em;
+  /* Lifts a section a shade off the body base so consecutive full-height
+     panels don't read as one continuous slab. Static — costs one paint. */
+  .surface-lift {
+    background-image: radial-gradient(
+      ellipse 85% 65% at 50% 0%,
+      rgba(227, 227, 219, 0.032),
+      transparent 72%
+    );
   }
 
   .text-label {

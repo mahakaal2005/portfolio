@@ -27,6 +27,10 @@ export default function SmoothScroll({ children }) {
       ScrollTrigger.config({ ignoreMobileResize: true })
       ScrollTrigger.refresh()
 
+      // Dev-only handle for checking trigger counts stay stable across motion
+      // toggles; a leak here means two tweens are fighting over one node.
+      if (import.meta.env.DEV) window.ScrollTrigger = ScrollTrigger
+
       return () => {
         gsap.ticker.remove(update)
         gsap.ticker.lagSmoothing(500, 33)

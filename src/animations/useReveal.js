@@ -90,7 +90,7 @@ export function useReveal(scope, selector = '[data-reveal]', options = {}) {
 /** Word-by-word scrubbed reveal — for the manifesto statement. */
 export function useWordScrub(scope, selector, options = {}) {
   const motionEnabled = useMotionEnabled()
-  const { start = 'top 80%', end = 'bottom 70%', stagger = 0.12 } = options
+  const { start = 'top 80%', end = 'bottom 55%', stagger = 0.12 } = options
 
   useGSAP(
     (context) => {

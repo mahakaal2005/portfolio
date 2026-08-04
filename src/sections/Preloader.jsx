@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { useMotionEnabled } from '../animations/MotionContext'
@@ -8,7 +8,7 @@ gsap.registerPlugin(useGSAP)
 export default function Preloader({ onComplete }) {
   const root = useRef(null)
   const counter = useRef({ value: 0 })
-  const [count, setCount] = useState(0)
+  const readout = useRef(null)
   const motionEnabled = useMotionEnabled()
 
   useGSAP(
@@ -25,7 +25,11 @@ export default function Preloader({ onComplete }) {
         value: 100,
         duration: 2.2,
         ease: 'power2.inOut',
-        onUpdate: () => setCount(Math.round(counter.current.value)),
+        // Written straight to the node: a setState per frame for 2.2s re-renders
+        // the whole overlay ~130× while the browser is still doing first paint.
+        onUpdate: () => {
+          readout.current.textContent = Math.round(counter.current.value)
+        },
       })
         .to('[data-preloader-bar]', { scaleX: 1, duration: 2.2, ease: 'power2.inOut' }, 0)
         .to('[data-preloader-meta]', { autoAlpha: 0, duration: 0.4 }, '-=0.2')
@@ -56,7 +60,9 @@ export default function Preloader({ onComplete }) {
         <span className="text-label text-bone-dim">Atul Kumar Singh</span>
 
         <div className="flex items-end justify-between gap-8">
-          <span className="text-display text-bone tabular-nums">{count}</span>
+          <span ref={readout} className="text-display text-bone tabular-nums">
+            0
+          </span>
           <span className="text-label mb-3 text-accent">Android · Flutter</span>
         </div>
 

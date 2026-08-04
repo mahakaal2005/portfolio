@@ -65,16 +65,24 @@ export default function Experience() {
           pin: true,
           scrub: 0.5,
           invalidateOnRefresh: true,
-          anticipatePin: 1,
+          // Last pin on the page, so it measures after Hero and Work.
+          refreshPriority: 1,
         },
       })
 
       cards.forEach((card, i) => {
         if (i === cards.length - 1) return
-        tl.to(card, { scale: 0.86, rotation: -3, autoAlpha: 0.45, ease: 'none' }, i)
-        tl.to(cards[i + 1], { y: '0%', autoAlpha: 1, ease: 'none' }, i)
+        // 0.18, not 0.45: the outgoing card only needs to hint at depth. Any
+        // more and its headline stays legible through the incoming card, which
+        // reads as two cards colliding rather than one stack advancing.
+        tl.to(card, { scale: 0.86, rotation: -3, autoAlpha: 0.18, ease: 'none' }, i)
+        tl.to(cards[i + 1], { y: '0%', ease: 'none', duration: 1 }, i)
+        // Opaque within the first third of the travel. Fading across the whole
+        // slide leaves the incoming card translucent while it moves, so the
+        // outgoing card reads straight through it.
+        tl.to(cards[i + 1], { autoAlpha: 1, ease: 'none', duration: 0.3 }, i)
         // Retire the card two deep so the stack never reads as more than a pair.
-        if (i > 0) tl.to(cards[i - 1], { autoAlpha: 0, ease: 'none' }, i)
+        if (i > 0) tl.to(cards[i - 1], { autoAlpha: 0, ease: 'none', duration: 0.3 }, i)
       })
 
       return () => {
@@ -90,7 +98,7 @@ export default function Experience() {
     return (
       <section
         id="experience"
-        className="relative flex min-h-svh flex-col justify-center px-6 py-24 md:px-10"
+        className="surface-lift relative flex min-h-svh flex-col justify-center px-6 py-24 md:px-10"
       >
         <span className="text-label mb-8 shrink-0 text-accent">[ 03 — Track record ]</span>
         <div className="flex flex-col gap-6">
@@ -111,7 +119,7 @@ export default function Experience() {
     <section
       ref={root}
       id="experience"
-      className="relative flex h-svh flex-col justify-center overflow-hidden px-6 py-24 md:px-10"
+      className="surface-lift relative flex h-svh flex-col justify-center overflow-hidden px-6 py-24 md:px-10"
     >
       <span className="text-label mb-8 shrink-0 text-accent">[ 03 — Track record ]</span>
 
@@ -120,7 +128,7 @@ export default function Experience() {
           <article
             key={m.id}
             data-stack-card
-            className="absolute inset-0 flex flex-col justify-between rounded-3xl border border-line bg-panel p-8 md:p-14"
+            className="absolute inset-0 flex flex-col justify-between overflow-hidden rounded-3xl border border-line bg-panel p-8 md:p-14"
           >
             <Card m={m} />
           </article>

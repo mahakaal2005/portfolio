@@ -10,7 +10,7 @@ export default function Manifesto() {
     <section
       ref={root}
       id="about"
-      className="relative flex min-h-svh items-center px-6 py-32 md:px-10 md:py-48"
+      className="surface-lift relative flex min-h-svh items-center px-6 py-32 md:px-10 md:py-48"
     >
       <div className="w-full max-w-6xl">
         <span className="text-label mb-12 block text-accent">[ 01 — What I do ]</span>
