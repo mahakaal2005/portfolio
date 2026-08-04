@@ -50,6 +50,28 @@ export const projects = [
     ],
     accent: '#3ddc84',
     href: null,
+    // Drives the phone mockup. `screenshot` stays null until real captures exist;
+    // PhoneFrame renders the image instead of this data the moment one is set.
+    screenshot: null,
+    screen: {
+      kind: 'wallet',
+      app: 'Fluence',
+      appBar: 'Dashboard',
+      balanceLabel: 'Total balance',
+      balance: '₹ 1,84,320',
+      delta: '+12.4% this month',
+      stats: [
+        { label: 'Cashback', value: '₹ 6,240' },
+        { label: 'Merchants', value: '312' },
+      ],
+      listLabel: 'Recent activity',
+      rows: [
+        { name: 'Blue Parrot', meta: 'Payout · 2m', amount: '+ ₹ 12,400' },
+        { name: 'Zepto', meta: 'Cashback · 1h', amount: '+ ₹ 84' },
+        { name: 'Settlement', meta: 'Batch · 3h', amount: '− ₹ 9,120' },
+      ],
+      action: 'Approve payouts',
+    },
   },
   {
     id: 'lookgig',
@@ -67,6 +89,24 @@ export const projects = [
     ],
     accent: '#7f52ff',
     href: null,
+    screenshot: null,
+    screen: {
+      kind: 'jobs',
+      app: 'LookGig',
+      appBar: 'Discover',
+      searchLabel: 'Search roles, skills',
+      chips: ['Remote', 'Full-time', 'Design'],
+      jobs: [
+        { role: 'Android Engineer', org: 'Nexbit · Bengaluru', pay: '₹ 18 LPA' },
+        { role: 'Flutter Developer', org: 'Payr · Remote', pay: '₹ 14 LPA' },
+      ],
+      stats: [
+        { label: 'Applied', value: '12' },
+        { label: 'Shortlisted', value: '4' },
+      ],
+      chat: { name: 'Priya · Recruiter', text: 'Can you do a call at 4?', time: 'now' },
+      action: 'Apply now',
+    },
   },
   {
     id: 'health',
@@ -84,6 +124,27 @@ export const projects = [
     ],
     accent: '#3ddc84',
     href: 'https://github.com/mahakaal2005/Health-Assistant',
+    screenshot: null,
+    screen: {
+      kind: 'health',
+      app: 'Health',
+      appBar: 'Today',
+      ringValue: '8,412',
+      ringLabel: 'steps · 84% of goal',
+      ringPercent: 84,
+      stats: [
+        { label: 'Active', value: '52 min' },
+        { label: 'Sleep', value: '7h 10m' },
+      ],
+      listLabel: 'Prescriptions',
+      rows: [
+        { name: 'Metformin', meta: '500mg · after meals', amount: '2×' },
+        { name: 'Vitamin D3', meta: 'Weekly · Sunday', amount: '1×' },
+        { name: 'Omega-3', meta: '1000mg · morning', amount: '1×' },
+      ],
+      summary: 'Step count up 12% this week. Keep evening walks consistent.',
+      action: 'Log symptoms',
+    },
   },
 ]
 
