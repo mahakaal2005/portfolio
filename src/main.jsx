@@ -4,6 +4,9 @@ import './index.css'
 import App from './App.jsx'
 import { MotionProvider } from './animations/MotionContext'
 import SmoothScroll from './animations/SmoothScroll'
+import { injectSpeedInsights } from '@vercel/speed-insights'
+
+injectSpeedInsights()
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
