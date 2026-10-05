@@ -1,18 +1,55 @@
-# React + Vite
+# Atul Kumar Singh — Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A single-page portfolio for an AI engineer. Fast, typographic, dark-only, and
+readable in one pass. No WebGL, no carousels, nothing that moves on a timer.
 
-Currently, two official plugins are available:
+**Sections:** hero → proof → work → capabilities → about → skills → problem
+solving → achievements → contact.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev          # http://localhost:5173
+npm run build        # → dist/
+npm run typecheck    # the repo's only automated check
+```
 
-## React Compiler
+## Credit
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+The design, layout and motion are by **[Charanjeet Singh](https://github.com/SinghCharanjeet11)**
+— this started as a fork of [SinghCharanjeet11/My_Portfolio](https://github.com/SinghCharanjeet11/My_Portfolio)
+and the visual system is his work. What changed here is the content: copy,
+projects, skills, imagery and links.
 
-Note: This will impact Vite dev & build performances.
+## Stack
 
-## Expanding the Oxlint configuration
+React 19 · TypeScript · Vite 8 · Tailwind v4 · Framer Motion
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Everything is self-hosted — fonts in `public/fonts/`, icons in `public/icons/` —
+so the page renders on a first visit with zero third-party requests.
+
+## Where things live
+
+| Path | What it holds |
+|---|---|
+| `src/content/` | All copy and data, imported as `@/content` |
+| `src/ui/FlatPortfolio.tsx` | The only place section order is expressed |
+| `src/ui/Sections.tsx` | Most sections, plus the shared `Section` shell |
+| `src/ui/Work.tsx` | Project grid and the slide-up case-study view |
+| `src/ui/motion.tsx` | Every animation on the site routes through here |
+| `src/styles/index.css` | Design tokens in a Tailwind v4 `@theme` block |
+| `assets-src/` | Full-resolution source images, before processing |
+
+Two things live outside `src/content/` despite being content: the skills grid
+(`src/ui/SkillsCards.tsx`) and the page metadata plus `<noscript>` fallback
+(`index.html`).
+
+`MAKE-IT-MINE.md` records the layout constraints worth knowing before editing —
+why the hero words must be long, why project metric labels must be short, and
+why project images are letterboxed to 16:10. `CLAUDE.md` covers the architecture
+in more depth.
+
+## Deploying
+
+Static SPA. `npm run build`, then serve `dist/`. Vercel, Netlify and GitHub
+Pages all work with no configuration.
+# atullly
